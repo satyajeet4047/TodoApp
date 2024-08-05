@@ -88,6 +88,6 @@ dependencies {
 
     //Room
     implementation(libs.room)
-    implementation(libs.room.compiler)
+    kapt(libs.room.compiler)
     implementation(libs.room.ktx)
 }
