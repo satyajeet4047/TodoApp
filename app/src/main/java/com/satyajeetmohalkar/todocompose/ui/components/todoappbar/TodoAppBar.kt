@@ -21,7 +21,7 @@ fun TodoAppBar(
 ) {
     TopAppBar(
         title = {
-            Text(text = title)
+            TopAppBarTitle(title)
         },
         actions = {
             TasksListActions(

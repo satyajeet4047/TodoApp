@@ -38,7 +38,7 @@ fun SearchAppbar(
             .fillMaxWidth()
             .height(56.dp),
         elevation = AppBarDefaults.TopAppBarElevation,
-        color = MaterialTheme.colors.topAppBarBackgroundColor
+        color = Color.Transparent
     ) {
         TextField(
             value = searchQuery,

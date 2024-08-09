@@ -6,6 +6,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddTask
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Search
@@ -18,6 +19,7 @@ import com.satyajeetmohalkar.todocompose.data.models.Priority
 import com.satyajeetmohalkar.todocompose.ui.components.dropdown.PriorityItem
 import com.satyajeetmohalkar.todocompose.ui.state.SearchBarState
 import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarContentColor
+import com.satyajeetmohalkar.todocompose.utils.TaskAction
 
 
 @Composable
@@ -108,6 +110,19 @@ fun DeleteAllAction(onDeleteAllClicked : () -> Unit) {
         Icon(
             imageVector = Icons.Filled.Delete,
             contentDescription = "Sort Task Button",
+            tint = MaterialTheme.colors.topAppBarContentColor
+        )
+    }
+}
+
+@Composable
+fun AddTaskAction(addActionClicked : (TaskAction) -> Unit) {
+    IconButton(onClick = {
+        addActionClicked(TaskAction.ADD)
+    }) {
+        Icon(
+            imageVector = Icons.Filled.AddTask,
+            contentDescription = "Add Task Button",
             tint = MaterialTheme.colors.topAppBarContentColor
         )
     }

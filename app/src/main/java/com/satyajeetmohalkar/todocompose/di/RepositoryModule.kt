@@ -1,11 +1,10 @@
 package com.satyajeetmohalkar.todocompose.di
 
-import com.satyajeetmohalkar.todocompose.data.local.repository.TodoRepository
-import com.satyajeetmohalkar.todocompose.data.local.repository.TodoRepositoryImpl
+import com.satyajeetmohalkar.todocompose.data.local.repository.TaskRepository
+import com.satyajeetmohalkar.todocompose.data.local.repository.TaskRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -13,5 +12,5 @@ import dagger.hilt.components.SingletonComponent
 interface RepositoryModule {
 
     @Binds
-    fun bindTodoRepository(todoRepositoryImpl: TodoRepositoryImpl) : TodoRepository
+    fun bindTaskRepository(taskRepositoryImpl: TaskRepositoryImpl) : TaskRepository
 }

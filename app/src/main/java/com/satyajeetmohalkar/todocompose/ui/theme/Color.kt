@@ -1,6 +1,5 @@
 package com.satyajeetmohalkar.todocompose.ui.theme
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Colors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -24,6 +23,8 @@ val lightGray = Color(0xFFFCFCFC)
 val mediumGray = Color(0xFF9C9C9C)
 val darkGray = Color(0xFF141414)
 
+val backgroundLight = Color(0xfff3f7f9)
+val backgroundDark = Color(0xff1A191E)
 
 val Colors.topAppBarContentColor
 @Composable
@@ -31,4 +32,13 @@ get() = if(isLight) Color.White else lightGray
 
 val Colors.topAppBarBackgroundColor
     @Composable
-    get() = if(isLight) primary else Color.Black
+    get() = if(isLight) primary else darkGray
+
+
+val Colors.taskItemTextColor
+    @Composable
+    get() = if(isLight) darkGray else lightGray
+
+val Colors.taskItemBackgroundColor
+    @Composable
+    get() = if(isLight) Color.White else Color.Black

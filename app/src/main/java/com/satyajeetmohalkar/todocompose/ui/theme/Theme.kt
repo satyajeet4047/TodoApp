@@ -12,11 +12,13 @@ import androidx.compose.ui.platform.LocalContext
 private val DarkColorPalette = darkColors(
     primary = Purple80,
     secondary = PurpleGrey80,
+    background = backgroundDark
 )
 
 private val LightColorPalette = lightColors(
     primary = Purple40,
     secondary = PurpleGrey40,
+    background = backgroundLight
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

@@ -3,7 +3,7 @@ package com.satyajeetmohalkar.todocompose.data.local.repository
 import com.satyajeetmohalkar.todocompose.data.models.TodoTask
 import kotlinx.coroutines.flow.Flow
 
-interface TodoRepository {
+interface TaskRepository {
 
     fun getAllTasks() : Flow<List<TodoTask>>
 

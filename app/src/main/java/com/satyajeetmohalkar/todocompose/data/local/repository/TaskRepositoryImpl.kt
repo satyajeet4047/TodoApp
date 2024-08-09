@@ -5,9 +5,9 @@ import com.satyajeetmohalkar.todocompose.data.models.TodoTask
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class TodoRepositoryImpl @Inject constructor(
+class TaskRepositoryImpl @Inject constructor(
    private val todoTaskDao: TodoTaskDao
-) : TodoRepository {
+) : TaskRepository {
     override fun getAllTasks(): Flow<List<TodoTask>> {
         return todoTaskDao.getAllTodoTasks()
     }
