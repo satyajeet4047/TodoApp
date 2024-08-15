@@ -50,7 +50,7 @@ fun PriorityDropDown(
 
     val rotateAngle by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)
 
-    val rememberDropDownMenuItems by rememberComposeImmutableList{ getPriorityDropDownItemList(currentPriority) }
+    val rememberDropDownMenuItems by rememberComposeImmutableList{ Constants.PRIORITY_LIST }
 
     Row(
         modifier = Modifier
@@ -106,18 +106,8 @@ fun PriorityDropDown(
             }
         }
     }
-
-
-
-
 }
 
-
-fun getPriorityDropDownItemList(currentPriority: Priority): List<Priority> {
-    return Constants.PRIORITY_LIST.filter { current ->
-        current.name != currentPriority.name
-    }
-}
 
 @Preview
 @Composable

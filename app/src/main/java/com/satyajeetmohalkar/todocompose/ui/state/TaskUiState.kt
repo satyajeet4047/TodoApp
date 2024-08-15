@@ -5,8 +5,8 @@ import com.satyajeetmohalkar.todocompose.data.models.TodoTask
 
 data class TaskUiState(
    val isLoading : Boolean,
-   val title : String?,
-   val description : String?,
+   val title : String,
+   val description : String,
    val priority: Priority,
    val isValidTitle : Boolean = true,
    val isValidDescription : Boolean = true
@@ -15,8 +15,8 @@ data class TaskUiState(
 
       fun initialState() = TaskUiState(
          isLoading = true,
-         title = null,
-         description = null,
+         title = "",
+         description = "",
          priority = Priority.LOW
       )
    }

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.satyajeetmohalkar.todocompose.data.local.repository.TaskRepository
 import com.satyajeetmohalkar.todocompose.data.models.Priority
+import com.satyajeetmohalkar.todocompose.data.models.TodoTask
 import com.satyajeetmohalkar.todocompose.di.TaskViewModelFactory
-import com.satyajeetmohalkar.todocompose.ui.state.TaskListUiState
 import com.satyajeetmohalkar.todocompose.ui.state.TaskUiState
 import com.satyajeetmohalkar.todocompose.utils.Constants
 import dagger.assisted.Assisted
@@ -14,10 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel(assistedFactory = TaskViewModelFactory::class)
 class TaskViewModel @AssistedInject constructor(
@@ -83,6 +81,24 @@ class TaskViewModel @AssistedInject constructor(
                 priority = priority
             )
         }
+    }
+
+     fun addTask() {
+        viewModelScope.launch {
+            taskUiState.value.let {
+                if (taskId == -1) {
+                    taskRepository.addTask(
+                        TodoTask(title = it.title, description = it.description, priority = it.priority)
+                    )
+                } else {
+                    taskRepository.update(TodoTask(id = taskId,title = it.title, description = it.description, priority = it.priority))
+                }
+            }
+        }
+    }
+
+    fun isValidTaskData() : Boolean {
+        return taskUiState.value.isValidTitle && taskUiState.value.isValidDescription
     }
 
 }

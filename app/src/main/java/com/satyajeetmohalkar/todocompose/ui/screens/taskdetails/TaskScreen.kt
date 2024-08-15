@@ -1,5 +1,7 @@
 package com.satyajeetmohalkar.todocompose.ui.screens.taskdetails
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,11 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.satyajeetmohalkar.todocompose.data.models.Priority
 import com.satyajeetmohalkar.todocompose.ui.components.dropdown.PriorityDropDown
 import com.satyajeetmohalkar.todocompose.ui.components.todoappbar.TaskAppBar
-import kotlin.reflect.KFunction1
 
 
 @Composable
@@ -29,6 +31,7 @@ fun TaskScreen(
 ) {
     val taskUiState by taskViewModel.taskUiState.collectAsState()
 
+    val context = LocalContext.current
     TaskContent(
         title = taskUiState.title,
         description = taskUiState.description,
@@ -37,6 +40,15 @@ fun TaskScreen(
         onTitleChange = taskViewModel::onTitleChange,
         onDescriptionChange = taskViewModel::onDescriptionChange,
         onPriorityChange = taskViewModel::onPriorityChange,
+        addActionClicked = {
+            if(taskViewModel.isValidTaskData()) {
+                taskViewModel.addTask()
+                onNavigateUp()
+            } else {
+                showToast(context,"Please enter valid task details...")
+            }
+
+        },
         isValidTitle = taskUiState.isValidTitle,
         isValidDescription = taskUiState.isValidDescription
     )
@@ -51,14 +63,16 @@ fun TaskContent(
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
     onPriorityChange: (Priority) -> Unit,
+    addActionClicked : () -> Unit,
     isValidTitle : Boolean,
-    isValidDescription : Boolean
+    isValidDescription : Boolean,
 ) {
     Scaffold(
         topBar = {
             TaskAppBar(
                 title = title,
-                onNavigateUp = onNavigateUp
+                onNavigateUp = onNavigateUp,
+                addActionClicked = addActionClicked
             )
         }
     ) { contentPadding ->
@@ -141,4 +155,12 @@ fun TaskScreenContent(
         )
     }
 
+}
+
+fun showToast(context : Context, message : String) {
+    Toast.makeText(
+        context,
+        message,
+        Toast.LENGTH_LONG
+    ).show()
 }

@@ -2,6 +2,7 @@ package com.satyajeetmohalkar.todocompose.ui.screens.taskslist
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FloatingActionButton
@@ -79,8 +80,10 @@ fun TaskListContent(
         }
     ) { contentPadding ->
         Box(
-            modifier = Modifier.padding(contentPadding),
-            contentAlignment = Alignment.Center
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding),
+            contentAlignment = Alignment.TopCenter
         ) {
             if(isLoading) {
                 CircularProgressIndicator(
