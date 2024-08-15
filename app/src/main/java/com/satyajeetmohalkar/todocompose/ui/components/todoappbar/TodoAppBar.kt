@@ -15,10 +15,12 @@ fun TodoAppBar(
     title: String,
     searchBarState: SearchBarState,
     searchQuery: String,
+    isDarkModeEnabled  : Boolean,
     onSearchQueryChange: (String) -> Unit,
     onSearchCloseClicked: () -> Unit,
     onSearchIconClicked : () -> Unit,
-    onDeleteAllClicked : () -> Unit
+    onDeleteAllClicked : () -> Unit,
+    onThemeChangeClick : (Boolean) -> Unit
 ) {
     TopAppBar(
         title = {
@@ -28,11 +30,14 @@ fun TodoAppBar(
             TasksListActions(
                 searchBarState = searchBarState,
                 searchQuery = searchQuery,
+                isDarkModeEnabled = isDarkModeEnabled,
                 onSearchQueryChange = onSearchQueryChange,
                 onSearchCloseClicked = onSearchCloseClicked,
                 onSearchIconClicked = onSearchIconClicked,
                 onSortClicked = {},
-                onDeleteAllClicked = onDeleteAllClicked
+                onDeleteAllClicked = onDeleteAllClicked,
+                onThemeChangeClick = onThemeChangeClick
+
             )
         },
         contentColor = MaterialTheme.colors.topAppBarContentColor,
@@ -47,8 +52,10 @@ fun TodoAppBarPreview() {
         "Title",
         searchBarState = SearchBarState.CLOSED,
         searchQuery = "",
+        isDarkModeEnabled = true,
         onSearchCloseClicked = {},
         onSearchQueryChange = {},
         onSearchIconClicked = {},
-        onDeleteAllClicked = {})
+        onDeleteAllClicked = {},
+        onThemeChangeClick = {})
 }

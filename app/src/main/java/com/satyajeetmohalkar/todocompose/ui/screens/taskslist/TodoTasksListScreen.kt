@@ -1,7 +1,7 @@
 package com.satyajeetmohalkar.todocompose.ui.screens.taskslist
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
@@ -25,7 +25,6 @@ import com.satyajeetmohalkar.todocompose.ui.components.dialog.DeleteTaskConfirma
 import com.satyajeetmohalkar.todocompose.ui.components.todoappbar.TodoAppBar
 import com.satyajeetmohalkar.todocompose.ui.state.SearchBarState
 import com.satyajeetmohalkar.todocompose.ui.theme.Purple40
-import com.satyajeetmohalkar.todocompose.ui.theme.Purple80
 import com.satyajeetmohalkar.todocompose.ui.theme.PurpleGrey40
 import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarBackgroundColor
 import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarContentColor
@@ -46,17 +45,23 @@ fun TodoTasksListScreen(
 
     var shouldShowDeleteConfirmationDialog by remember { mutableStateOf(false) }
 
+    val isDarkModeEnabled by taskListViewModel.darkMode.collectAsState()
+
     TaskListContent(
         isLoading = tasksListUiState.isLoading,
         taskList = tasks,
         searchBarState = searchBarState,
         searchQuery = searchQuery,
+        isDarkModeEnabled = isDarkModeEnabled,
         onSearchQueryChange = taskListViewModel::onSearchQueryChange,
         onSearchCloseClicked = taskListViewModel::onSearchCloseClicked,
         onSearchIconClicked = taskListViewModel::onSearchIconClicked,
         navigateToTaskDetails = navigateToTaskDetails,
         onDeleteAllClicked = {
             shouldShowDeleteConfirmationDialog = true
+        },
+        onThemeChangeClick = {
+            taskListViewModel.onThemeChange(it)
         }
     )
 
@@ -66,15 +71,17 @@ fun TodoTasksListScreen(
 
 @Composable
 fun TaskListContent(
-    isLoading : Boolean,
-    taskList : ComposeImmutableList<TodoTask>,
-    searchBarState : SearchBarState,
-    searchQuery : String,
+    isLoading: Boolean,
+    taskList: ComposeImmutableList<TodoTask>,
+    searchBarState: SearchBarState,
+    searchQuery: String,
+    isDarkModeEnabled: Boolean,
     onSearchQueryChange: (String) -> Unit,
     onSearchCloseClicked: () -> Unit,
-    onSearchIconClicked : () -> Unit,
+    onSearchIconClicked: () -> Unit,
     navigateToTaskDetails: (Int) -> Unit,
-    onDeleteAllClicked: () -> Unit
+    onDeleteAllClicked: () -> Unit,
+    onThemeChangeClick : (Boolean) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -82,10 +89,12 @@ fun TaskListContent(
                 title = "Tasks",
                 searchBarState = searchBarState,
                 searchQuery = searchQuery,
+                isDarkModeEnabled = isDarkModeEnabled,
                 onSearchQueryChange = onSearchQueryChange,
                 onSearchCloseClicked = onSearchCloseClicked,
                 onSearchIconClicked = onSearchIconClicked,
-                onDeleteAllClicked = onDeleteAllClicked
+                onDeleteAllClicked = onDeleteAllClicked,
+                onThemeChangeClick = onThemeChangeClick
             )
         },
         floatingActionButton = {

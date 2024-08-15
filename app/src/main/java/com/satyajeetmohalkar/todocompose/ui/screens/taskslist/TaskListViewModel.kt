@@ -2,9 +2,9 @@ package com.satyajeetmohalkar.todocompose.ui.screens.taskslist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.satyajeetmohalkar.todocompose.data.local.repository.TaskRepository
 import com.satyajeetmohalkar.todocompose.data.models.TodoTask
+import com.satyajeetmohalkar.todocompose.preferences.PreferenceManager
 import com.satyajeetmohalkar.todocompose.ui.state.SearchBarState
 import com.satyajeetmohalkar.todocompose.ui.state.TaskListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TaskListViewModel @Inject constructor(
-    private val taskRepository: TaskRepository
+    private val taskRepository: TaskRepository,
+    private val preferenceManager: PreferenceManager
 ) : ViewModel() {
 
     private val _searchBarState = MutableStateFlow(SearchBarState.CLOSED)
@@ -41,9 +42,24 @@ class TaskListViewModel @Inject constructor(
         MutableStateFlow(TaskListUiState(isLoading = true, tasks = emptyList()))
     val tasksListUiState: StateFlow<TaskListUiState> = _tasksListUiState
 
+    private val _darkMode = MutableStateFlow<Boolean>(false)
+    val darkMode : StateFlow<Boolean> = _darkMode
+
     init {
         observeTasks()
         searchTasks()
+        observerUiMode()
+    }
+
+    private fun observerUiMode() {
+        preferenceManager.uiModeFlow
+            .onEach { isDarkModeEnabled ->
+                _darkMode.update {
+                    isDarkModeEnabled
+                }
+            }
+            .flowOn(Dispatchers.IO)
+            .launchIn(viewModelScope)
     }
 
     fun onSearchQueryChange(searchQueryText: String) {
@@ -101,6 +117,12 @@ class TaskListViewModel @Inject constructor(
     fun deleteAllTasks() {
         viewModelScope.launch {
             taskRepository.deleteAllTasks()
+        }
+    }
+
+     fun onThemeChange(isDarkModeEnabled : Boolean) {
+        viewModelScope.launch {
+            preferenceManager.setDarkMode(isDarkModeEnabled)
         }
     }
 
