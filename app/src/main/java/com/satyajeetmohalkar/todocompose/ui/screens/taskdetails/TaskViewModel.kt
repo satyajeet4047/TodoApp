@@ -38,6 +38,7 @@ class TaskViewModel @AssistedInject constructor(
                     _taskUiState.update {
                         it.copy(
                             isLoading = false,
+                            taskId = task.id,
                             title = task.title,
                             description = task.description,
                             priority = task.priority
@@ -99,6 +100,14 @@ class TaskViewModel @AssistedInject constructor(
 
     fun isValidTaskData() : Boolean {
         return taskUiState.value.isValidTitle && taskUiState.value.isValidDescription
+    }
+
+    fun deleteTask() {
+        if(taskId!=-1) {
+            viewModelScope.launch {
+                taskRepository.deleteTask(taskId)
+            }
+        }
     }
 
 }

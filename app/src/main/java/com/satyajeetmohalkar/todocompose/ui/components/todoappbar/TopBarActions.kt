@@ -129,9 +129,9 @@ fun AddTaskAction(addActionClicked : () -> Unit) {
 }
 
 @Composable
-fun DeleteTaskAction(deleteActionClicked : (TaskAction) -> Unit) {
+fun DeleteTaskAction(deleteActionClicked : () -> Unit) {
     IconButton(onClick = {
-        deleteActionClicked(TaskAction.DELETE)
+        deleteActionClicked()
     }) {
         Icon(
             imageVector = Icons.Filled.Delete,

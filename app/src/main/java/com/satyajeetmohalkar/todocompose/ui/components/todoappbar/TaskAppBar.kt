@@ -11,9 +11,11 @@ import com.satyajeetmohalkar.todocompose.utils.TaskAction
 
 @Composable
 fun TaskAppBar(
+    taskId : Int,
     title: String?,
     onNavigateUp: () -> Unit,
-    addActionClicked : () -> Unit
+    addActionClicked : () -> Unit,
+    deleteActionClicked : () -> Unit
 ) {
 
     TopAppBar(
@@ -26,8 +28,8 @@ fun TaskAppBar(
             }
         },
         actions = {
-            if(title != "Add Task") {
-                DeleteTaskAction(deleteActionClicked = {})
+            if(taskId != -1) {
+                DeleteTaskAction(deleteActionClicked = deleteActionClicked)
             }
             AddTaskAction(addActionClicked = addActionClicked)
         }

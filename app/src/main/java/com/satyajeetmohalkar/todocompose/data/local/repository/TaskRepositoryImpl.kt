@@ -40,7 +40,7 @@ class TaskRepositoryImpl @Inject constructor(
         return todoTaskDao.deleteAllTasks()
     }
 
-    override suspend fun deleteTask(task: TodoTask) {
-        return todoTaskDao.deleteTask(task)
+    override suspend fun deleteTask(taskId: Int) {
+        return todoTaskDao.deleteTask(taskId)
     }
 }

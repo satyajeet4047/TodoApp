@@ -16,10 +16,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.satyajeetmohalkar.todocompose.data.models.Priority
+import com.satyajeetmohalkar.todocompose.ui.components.dialog.ConfirmationDialog
 import com.satyajeetmohalkar.todocompose.ui.components.dropdown.PriorityDropDown
 import com.satyajeetmohalkar.todocompose.ui.components.todoappbar.TaskAppBar
 
@@ -30,9 +34,12 @@ fun TaskScreen(
     onNavigateUp: () -> Unit
 ) {
     val taskUiState by taskViewModel.taskUiState.collectAsState()
+    var shouldShowDeleteConfirmationDialog by remember { mutableStateOf(false) }
+
 
     val context = LocalContext.current
     TaskContent(
+        taskId = taskUiState.taskId,
         title = taskUiState.title,
         description = taskUiState.description,
         priority = taskUiState.priority,
@@ -49,13 +56,23 @@ fun TaskScreen(
             }
 
         },
+        deleteActionClicked = {  shouldShowDeleteConfirmationDialog = true},
         isValidTitle = taskUiState.isValidTitle,
-        isValidDescription = taskUiState.isValidDescription
+        isValidDescription = taskUiState.isValidDescription,
+        onDeleteConfirm = {
+            taskViewModel.deleteTask()
+            onNavigateUp()
+        },
+        onDismiss = {
+            shouldShowDeleteConfirmationDialog = false
+        },
+        shouldShowDeleteConfirmationDialog = shouldShowDeleteConfirmationDialog
     )
 }
 
 @Composable
 fun TaskContent(
+    taskId: Int,
     title: String?,
     description: String?,
     priority: Priority,
@@ -63,16 +80,24 @@ fun TaskContent(
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
     onPriorityChange: (Priority) -> Unit,
-    addActionClicked : () -> Unit,
-    isValidTitle : Boolean,
-    isValidDescription : Boolean,
+    addActionClicked: () -> Unit,
+    deleteActionClicked: () -> Unit,
+    isValidTitle: Boolean,
+    isValidDescription: Boolean,
+    onDeleteConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+    shouldShowDeleteConfirmationDialog: Boolean
 ) {
+
+
     Scaffold(
         topBar = {
             TaskAppBar(
+                taskId = taskId,
                 title = title,
                 onNavigateUp = onNavigateUp,
-                addActionClicked = addActionClicked
+                addActionClicked = addActionClicked,
+                deleteActionClicked = deleteActionClicked
             )
         }
     ) { contentPadding ->
@@ -90,6 +115,8 @@ fun TaskContent(
         }
 
     }
+
+    DeleteTaskConfirmationDialog(title ?: "",shouldShowDeleteConfirmationDialog, onDeleteConfirm, onDismiss)
 }
 
 
@@ -163,4 +190,18 @@ fun showToast(context : Context, message : String) {
         message,
         Toast.LENGTH_LONG
     ).show()
+}
+
+
+@Composable
+fun DeleteTaskConfirmationDialog(title : String,showDialog : Boolean, onDeleteConfirm : () -> Unit, onDismiss : () -> Unit) {
+    if(showDialog){
+        ConfirmationDialog(
+            title = "Delete Task : $title",
+            message = "Are you sure you want to delete this task",
+            onConfirmedYes = onDeleteConfirm,
+            onConfirmedNo = onDismiss) {
+
+        }
+    }
 }

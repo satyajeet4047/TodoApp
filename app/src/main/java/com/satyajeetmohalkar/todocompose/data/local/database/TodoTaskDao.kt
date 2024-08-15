@@ -15,10 +15,9 @@ interface TodoTaskDao {
     @Upsert
     suspend fun insertTask(todoTask: TodoTask)
 
-
     //Delete a task
-    @Delete
-    suspend fun deleteTask(todoTask: TodoTask)
+    @Query("DELETE FROM ${Constants.TODO_TABLE_NAME} where id=:taskId")
+    suspend fun deleteTask(taskId : Int)
 
     //Delete all tasks
     @Query("DELETE FROM ${Constants.TODO_TABLE_NAME}")

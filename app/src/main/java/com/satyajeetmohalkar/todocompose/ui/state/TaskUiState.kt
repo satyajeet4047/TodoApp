@@ -4,12 +4,14 @@ import com.satyajeetmohalkar.todocompose.data.models.Priority
 import com.satyajeetmohalkar.todocompose.data.models.TodoTask
 
 data class TaskUiState(
+   val taskId : Int = -1,
    val isLoading : Boolean,
    val title : String,
    val description : String,
    val priority: Priority,
    val isValidTitle : Boolean = true,
-   val isValidDescription : Boolean = true
+   val isValidDescription : Boolean = true,
+
 ) {
    companion object {
 
