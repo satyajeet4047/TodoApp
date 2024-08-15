@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.satyajeetmohalkar.todocompose.data.models.Priority
 import com.satyajeetmohalkar.todocompose.data.models.TodoTask
 import com.satyajeetmohalkar.todocompose.ui.components.dialog.DeleteTaskConfirmationDialog
 import com.satyajeetmohalkar.todocompose.ui.components.todoappbar.TodoAppBar
@@ -57,6 +58,7 @@ fun TodoTasksListScreen(
         onSearchCloseClicked = taskListViewModel::onSearchCloseClicked,
         onSearchIconClicked = taskListViewModel::onSearchIconClicked,
         navigateToTaskDetails = navigateToTaskDetails,
+        onSortClicked = taskListViewModel::onSortTasks,
         onDeleteAllClicked = {
             shouldShowDeleteConfirmationDialog = true
         },
@@ -81,7 +83,8 @@ fun TaskListContent(
     onSearchIconClicked: () -> Unit,
     navigateToTaskDetails: (Int) -> Unit,
     onDeleteAllClicked: () -> Unit,
-    onThemeChangeClick : (Boolean) -> Unit
+    onThemeChangeClick : (Boolean) -> Unit,
+    onSortClicked : (Priority) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -94,7 +97,8 @@ fun TaskListContent(
                 onSearchCloseClicked = onSearchCloseClicked,
                 onSearchIconClicked = onSearchIconClicked,
                 onDeleteAllClicked = onDeleteAllClicked,
-                onThemeChangeClick = onThemeChangeClick
+                onThemeChangeClick = onThemeChangeClick,
+                onSortClicked = onSortClicked
             )
         },
         floatingActionButton = {

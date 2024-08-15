@@ -97,15 +97,24 @@ fun SortAction(onSortClicked : (Priority) -> Unit) {
             contentDescription = "Sort Task Button",
             tint = MaterialTheme.colors.topAppBarContentColor
         )
-        DropdownMenu(expanded = isExpanded, onDismissRequest = {isExpanded = false }) {
-            DropdownMenuItem(onClick = { onSortClicked(Priority.LOW) }) {
+        DropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
+            DropdownMenuItem(onClick = {
+                onSortClicked(Priority.LOW)
+                isExpanded = false
+            }) {
                 PriorityItem(priority = Priority.LOW)
             }
-            DropdownMenuItem(onClick = { onSortClicked(Priority.MEDIUM) }) {
-                PriorityItem(priority = Priority.MEDIUM)
-            }
-            DropdownMenuItem(onClick = { onSortClicked(Priority.HIGH) }) {
+            DropdownMenuItem(onClick = {
+                onSortClicked(Priority.HIGH)
+                isExpanded = false
+            }) {
                 PriorityItem(priority = Priority.HIGH)
+            }
+            DropdownMenuItem(onClick = {
+                onSortClicked(Priority.NONE)
+                isExpanded = false
+            }) {
+                PriorityItem(priority = Priority.NONE)
             }
         }
     }

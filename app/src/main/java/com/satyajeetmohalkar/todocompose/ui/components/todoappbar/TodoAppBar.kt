@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.satyajeetmohalkar.todocompose.data.models.Priority
 import com.satyajeetmohalkar.todocompose.ui.state.SearchBarState
 import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarBackgroundColor
 import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarContentColor
@@ -20,7 +21,8 @@ fun TodoAppBar(
     onSearchCloseClicked: () -> Unit,
     onSearchIconClicked : () -> Unit,
     onDeleteAllClicked : () -> Unit,
-    onThemeChangeClick : (Boolean) -> Unit
+    onThemeChangeClick : (Boolean) -> Unit,
+    onSortClicked : (Priority) -> Unit
 ) {
     TopAppBar(
         title = {
@@ -34,7 +36,7 @@ fun TodoAppBar(
                 onSearchQueryChange = onSearchQueryChange,
                 onSearchCloseClicked = onSearchCloseClicked,
                 onSearchIconClicked = onSearchIconClicked,
-                onSortClicked = {},
+                onSortClicked = onSortClicked,
                 onDeleteAllClicked = onDeleteAllClicked,
                 onThemeChangeClick = onThemeChangeClick
 
@@ -57,5 +59,6 @@ fun TodoAppBarPreview() {
         onSearchQueryChange = {},
         onSearchIconClicked = {},
         onDeleteAllClicked = {},
-        onThemeChangeClick = {})
+        onThemeChangeClick = {},
+        onSortClicked = {})
 }

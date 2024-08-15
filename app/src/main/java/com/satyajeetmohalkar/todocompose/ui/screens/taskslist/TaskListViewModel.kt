@@ -3,6 +3,7 @@ package com.satyajeetmohalkar.todocompose.ui.screens.taskslist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.satyajeetmohalkar.todocompose.data.local.repository.TaskRepository
+import com.satyajeetmohalkar.todocompose.data.models.Priority
 import com.satyajeetmohalkar.todocompose.data.models.TodoTask
 import com.satyajeetmohalkar.todocompose.preferences.PreferenceManager
 import com.satyajeetmohalkar.todocompose.ui.state.SearchBarState
@@ -12,6 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -25,8 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TaskListViewModel @Inject constructor(
-    private val taskRepository: TaskRepository,
-    private val preferenceManager: PreferenceManager
+    private val taskRepository: TaskRepository, private val preferenceManager: PreferenceManager
 ) : ViewModel() {
 
     private val _searchBarState = MutableStateFlow(SearchBarState.CLOSED)
@@ -43,7 +45,7 @@ class TaskListViewModel @Inject constructor(
     val tasksListUiState: StateFlow<TaskListUiState> = _tasksListUiState
 
     private val _darkMode = MutableStateFlow<Boolean>(false)
-    val darkMode : StateFlow<Boolean> = _darkMode
+    val darkMode: StateFlow<Boolean> = _darkMode
 
     init {
         observeTasks()
@@ -52,14 +54,11 @@ class TaskListViewModel @Inject constructor(
     }
 
     private fun observerUiMode() {
-        preferenceManager.uiModeFlow
-            .onEach { isDarkModeEnabled ->
+        preferenceManager.uiModeFlow.onEach { isDarkModeEnabled ->
                 _darkMode.update {
                     isDarkModeEnabled
                 }
-            }
-            .flowOn(Dispatchers.IO)
-            .launchIn(viewModelScope)
+            }.flowOn(Dispatchers.IO).launchIn(viewModelScope)
     }
 
     fun onSearchQueryChange(searchQueryText: String) {
@@ -82,35 +81,35 @@ class TaskListViewModel @Inject constructor(
 
     private fun observeTasks() {
         taskRepository.getAllTasks().distinctUntilChanged().onEach { tasks ->
-                _tasks.update {
-                    tasks
-                }
-            }.launchIn(viewModelScope)
+            _tasks.update {
+                tasks
+            }
+        }.launchIn(viewModelScope)
     }
 
     @OptIn(FlowPreview::class)
     private fun searchTasks() {
         searchQuery.debounce(300L).combine(tasks) { query, tasks ->
-                if (query.isEmpty()) {
-                    _tasksListUiState.update {
-                        it.copy(
-                            isLoading = false, tasks = tasks
-                        )
-                    }
-                } else {
-                    _tasksListUiState.update {
-                        it.copy(isLoading = false, tasks = tasks.filter { task ->
-                            task.title.contains(query) || task.description.contains(query)
-                        })
-                    }
-                }
-            }.flowOn(Dispatchers.IO).onStart {
+            if (query.isEmpty()) {
                 _tasksListUiState.update {
                     it.copy(
-                        isLoading = true, tasks = emptyList()
+                        isLoading = false, tasks = tasks
                     )
                 }
-            }.launchIn(viewModelScope)
+            } else {
+                _tasksListUiState.update {
+                    it.copy(isLoading = false, tasks = tasks.filter { task ->
+                        task.title.contains(query) || task.description.contains(query)
+                    })
+                }
+            }
+        }.flowOn(Dispatchers.IO).onStart {
+            _tasksListUiState.update {
+                it.copy(
+                    isLoading = true, tasks = emptyList()
+                )
+            }
+        }.launchIn(viewModelScope)
     }
 
 
@@ -120,9 +119,38 @@ class TaskListViewModel @Inject constructor(
         }
     }
 
-     fun onThemeChange(isDarkModeEnabled : Boolean) {
+    fun onThemeChange(isDarkModeEnabled: Boolean) {
         viewModelScope.launch {
             preferenceManager.setDarkMode(isDarkModeEnabled)
+        }
+    }
+
+    fun onSortTasks(priority: Priority) {
+        viewModelScope.launch {
+            val tasksFlow = when (priority) {
+                Priority.LOW -> {
+                    taskRepository.getSortedTasksByLowToHigh()
+                }
+                Priority.HIGH -> {
+                    taskRepository.getSortedTasksByHighToLow()
+                }
+                else -> {
+                    taskRepository.getAllTasks()
+                }
+            }
+
+            tasksFlow.distinctUntilChanged()
+                .onStart {
+                    _tasksListUiState.update {
+                        it.copy(
+                            isLoading = true, tasks = emptyList()
+                        )
+                    }
+                }.collectLatest { tasks ->
+                    _tasks.update {
+                        tasks
+                    }
+                }
         }
     }
 
