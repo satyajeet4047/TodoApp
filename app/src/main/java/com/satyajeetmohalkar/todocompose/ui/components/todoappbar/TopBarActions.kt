@@ -91,11 +91,11 @@ fun SortAction(onSortClicked : (Priority) -> Unit) {
             DropdownMenuItem(onClick = { onSortClicked(Priority.LOW) }) {
                 PriorityItem(priority = Priority.LOW)
             }
+            DropdownMenuItem(onClick = { onSortClicked(Priority.MEDIUM) }) {
+                PriorityItem(priority = Priority.MEDIUM)
+            }
             DropdownMenuItem(onClick = { onSortClicked(Priority.HIGH) }) {
                 PriorityItem(priority = Priority.HIGH)
-            }
-            DropdownMenuItem(onClick = { onSortClicked(Priority.NONE) }) {
-                PriorityItem(priority = Priority.NONE)
             }
         }
     }
@@ -123,6 +123,19 @@ fun AddTaskAction(addActionClicked : (TaskAction) -> Unit) {
         Icon(
             imageVector = Icons.Filled.AddTask,
             contentDescription = "Add Task Button",
+            tint = MaterialTheme.colors.topAppBarContentColor
+        )
+    }
+}
+
+@Composable
+fun DeleteTaskAction(deleteActionClicked : (TaskAction) -> Unit) {
+    IconButton(onClick = {
+        deleteActionClicked(TaskAction.DELETE)
+    }) {
+        Icon(
+            imageVector = Icons.Filled.Delete,
+            contentDescription = "Delete Task Button",
             tint = MaterialTheme.colors.topAppBarContentColor
         )
     }

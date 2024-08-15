@@ -15,9 +15,10 @@ import androidx.compose.ui.unit.dp
 import com.satyajeetmohalkar.todocompose.data.models.Priority
 
 @Composable
-fun PriorityItem(priority: Priority) {
+fun PriorityItem(modifier: Modifier= Modifier, priority: Priority) {
     
     Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Canvas(modifier =  Modifier

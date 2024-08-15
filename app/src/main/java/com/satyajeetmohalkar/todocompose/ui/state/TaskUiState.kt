@@ -7,7 +7,9 @@ data class TaskUiState(
    val isLoading : Boolean,
    val title : String?,
    val description : String?,
-   val priority: Priority?
+   val priority: Priority,
+   val isValidTitle : Boolean = true,
+   val isValidDescription : Boolean = true
 ) {
    companion object {
 
@@ -15,7 +17,7 @@ data class TaskUiState(
          isLoading = true,
          title = null,
          description = null,
-         priority = null
+         priority = Priority.LOW
       )
    }
 }

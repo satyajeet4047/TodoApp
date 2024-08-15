@@ -8,9 +8,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.satyajeetmohalkar.todocompose.data.models.TodoTask
+import com.satyajeetmohalkar.todocompose.utils.ComposeImmutableList
 
 @Composable
-fun TaskList(tasks: List<TodoTask>, navigateToTaskDetails: (Int) -> Unit) {
+fun TaskList(tasks: ComposeImmutableList<TodoTask>, navigateToTaskDetails: (Int) -> Unit) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 4.dp),
         modifier = Modifier.testTag("notesList")

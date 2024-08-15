@@ -24,6 +24,8 @@ import com.satyajeetmohalkar.todocompose.ui.theme.Purple80
 import com.satyajeetmohalkar.todocompose.ui.theme.PurpleGrey40
 import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarBackgroundColor
 import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarContentColor
+import com.satyajeetmohalkar.todocompose.utils.ComposeImmutableList
+import com.satyajeetmohalkar.todocompose.utils.rememberComposeImmutableList
 
 
 @Composable
@@ -35,9 +37,11 @@ fun TodoTasksListScreen(
     val searchBarState by taskListViewModel.searchBarState.collectAsState()
     val tasksListUiState by taskListViewModel.tasksListUiState.collectAsState()
 
+    val tasks by rememberComposeImmutableList { tasksListUiState.tasks }
+
     TaskListContent(
         isLoading = tasksListUiState.isLoading,
-        taskList = tasksListUiState.tasks ,
+        taskList = tasks,
         searchBarState = searchBarState,
         searchQuery = searchQuery,
         onSearchQueryChange = taskListViewModel::onSearchQueryChange,
@@ -51,7 +55,7 @@ fun TodoTasksListScreen(
 @Composable
 fun TaskListContent(
     isLoading : Boolean,
-    taskList : List<TodoTask>,
+    taskList : ComposeImmutableList<TodoTask>,
     searchBarState : SearchBarState,
     searchQuery : String,
     onSearchQueryChange: (String) -> Unit,

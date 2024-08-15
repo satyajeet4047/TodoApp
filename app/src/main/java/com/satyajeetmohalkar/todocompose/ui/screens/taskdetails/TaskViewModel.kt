@@ -3,9 +3,11 @@ package com.satyajeetmohalkar.todocompose.ui.screens.taskdetails
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.satyajeetmohalkar.todocompose.data.local.repository.TaskRepository
+import com.satyajeetmohalkar.todocompose.data.models.Priority
 import com.satyajeetmohalkar.todocompose.di.TaskViewModelFactory
 import com.satyajeetmohalkar.todocompose.ui.state.TaskListUiState
 import com.satyajeetmohalkar.todocompose.ui.state.TaskUiState
+import com.satyajeetmohalkar.todocompose.utils.Constants
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +32,6 @@ class TaskViewModel @AssistedInject constructor(
         getTask()
     }
 
-
     private fun getTask() {
         viewModelScope.launch {
            taskRepository
@@ -47,10 +48,40 @@ class TaskViewModel @AssistedInject constructor(
                } ?: kotlin.run {
                _taskUiState.update {
                    it.copy(
-                       isLoading = false
-                   )
+                       isLoading = false,
+                       title = "Add Task",
+                       description = "")
                }
            }
+        }
+    }
+
+    fun onTitleChange(title : String) {
+        if(title.length <=  Constants.MAX_TITLE_LENGTH) {
+            _taskUiState.update {
+                it.copy(
+                    title = title,
+                    isValidTitle = title.isNotEmpty()
+                )
+            }
+        }
+
+    }
+
+    fun onDescriptionChange(description : String) {
+            _taskUiState.update {
+                it.copy(
+                    description = description,
+                    isValidDescription = description.isNotEmpty()
+                )
+            }
+    }
+
+    fun onPriorityChange(priority: Priority) {
+        _taskUiState.update {
+            it.copy(
+                priority = priority
+            )
         }
     }
 

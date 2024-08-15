@@ -6,12 +6,11 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import com.satyajeetmohalkar.todocompose.utils.TaskAction
 
 
 @Composable
-fun AddTaskAppBar(
-    title: String,
+fun TaskAppBar(
+    title: String?,
     onNavigateUp: () -> Unit
 ) {
 
@@ -25,12 +24,13 @@ fun AddTaskAppBar(
             }
         },
         actions = {
-            AddTaskAction(
-                addActionClicked = {
-
-            })
+            if(title != "Add Task") {
+                DeleteTaskAction(deleteActionClicked = {})
+            }
+            AddTaskAction(addActionClicked = {})
         }
     )
 }
+
 
 
