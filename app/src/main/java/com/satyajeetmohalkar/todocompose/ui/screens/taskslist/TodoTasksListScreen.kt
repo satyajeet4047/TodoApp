@@ -14,10 +14,14 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.satyajeetmohalkar.todocompose.data.models.TodoTask
+import com.satyajeetmohalkar.todocompose.ui.components.dialog.DeleteTaskConfirmationDialog
 import com.satyajeetmohalkar.todocompose.ui.components.todoappbar.TodoAppBar
 import com.satyajeetmohalkar.todocompose.ui.state.SearchBarState
 import com.satyajeetmohalkar.todocompose.ui.theme.Purple40
@@ -40,6 +44,8 @@ fun TodoTasksListScreen(
 
     val tasks by rememberComposeImmutableList { tasksListUiState.tasks }
 
+    var shouldShowDeleteConfirmationDialog by remember { mutableStateOf(false) }
+
     TaskListContent(
         isLoading = tasksListUiState.isLoading,
         taskList = tasks,
@@ -48,8 +54,13 @@ fun TodoTasksListScreen(
         onSearchQueryChange = taskListViewModel::onSearchQueryChange,
         onSearchCloseClicked = taskListViewModel::onSearchCloseClicked,
         onSearchIconClicked = taskListViewModel::onSearchIconClicked,
-        navigateToTaskDetails = navigateToTaskDetails
+        navigateToTaskDetails = navigateToTaskDetails,
+        onDeleteAllClicked = {
+            shouldShowDeleteConfirmationDialog = true
+        }
     )
+
+    DeleteTaskConfirmationDialog("Delete All Tasks", "Are you sure you want to delete all todo tasks?",shouldShowDeleteConfirmationDialog, taskListViewModel::deleteAllTasks, {})
 
 }
 
@@ -62,7 +73,8 @@ fun TaskListContent(
     onSearchQueryChange: (String) -> Unit,
     onSearchCloseClicked: () -> Unit,
     onSearchIconClicked : () -> Unit,
-    navigateToTaskDetails: (Int) -> Unit
+    navigateToTaskDetails: (Int) -> Unit,
+    onDeleteAllClicked: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -72,7 +84,8 @@ fun TaskListContent(
                 searchQuery = searchQuery,
                 onSearchQueryChange = onSearchQueryChange,
                 onSearchCloseClicked = onSearchCloseClicked,
-                onSearchIconClicked = onSearchIconClicked
+                onSearchIconClicked = onSearchIconClicked,
+                onDeleteAllClicked = onDeleteAllClicked
             )
         },
         floatingActionButton = {

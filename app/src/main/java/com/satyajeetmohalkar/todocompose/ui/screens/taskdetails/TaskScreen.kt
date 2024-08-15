@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.satyajeetmohalkar.todocompose.data.models.Priority
 import com.satyajeetmohalkar.todocompose.ui.components.dialog.ConfirmationDialog
+import com.satyajeetmohalkar.todocompose.ui.components.dialog.DeleteTaskConfirmationDialog
 import com.satyajeetmohalkar.todocompose.ui.components.dropdown.PriorityDropDown
 import com.satyajeetmohalkar.todocompose.ui.components.todoappbar.TaskAppBar
 
@@ -116,7 +117,7 @@ fun TaskContent(
 
     }
 
-    DeleteTaskConfirmationDialog(title ?: "",shouldShowDeleteConfirmationDialog, onDeleteConfirm, onDismiss)
+    DeleteTaskConfirmationDialog(title ?: "", description ?: "",shouldShowDeleteConfirmationDialog, onDeleteConfirm, onDismiss)
 }
 
 
@@ -192,16 +193,3 @@ fun showToast(context : Context, message : String) {
     ).show()
 }
 
-
-@Composable
-fun DeleteTaskConfirmationDialog(title : String,showDialog : Boolean, onDeleteConfirm : () -> Unit, onDismiss : () -> Unit) {
-    if(showDialog){
-        ConfirmationDialog(
-            title = "Delete Task : $title",
-            message = "Are you sure you want to delete this task",
-            onConfirmedYes = onDeleteConfirm,
-            onConfirmedNo = onDismiss) {
-
-        }
-    }
-}

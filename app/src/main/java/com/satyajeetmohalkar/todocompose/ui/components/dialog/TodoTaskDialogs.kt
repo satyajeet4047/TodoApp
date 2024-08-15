@@ -24,7 +24,6 @@ fun ConfirmationDialog(
     title: String,
     message: String,
     onConfirmedYes: () -> Unit,
-    onConfirmedNo: () -> Unit,
     onDismissed: () -> Unit
 ) {
     var isDismissed by remember { mutableStateOf(false) }
@@ -51,7 +50,6 @@ fun ConfirmationDialog(
                 ) {
                     TextButton(
                         onClick = {
-                            onConfirmedNo()
                             isDismissed = true
                         },
                         modifier = Modifier
@@ -82,5 +80,16 @@ fun ConfirmationDialog(
                 }
             }
         )
+    }
+}
+
+@Composable
+fun DeleteTaskConfirmationDialog(title : String, message: String, showDialog : Boolean, onDeleteConfirm : () -> Unit, onDismissed: () -> Unit) {
+    if(showDialog){
+        ConfirmationDialog(
+            title =title,
+            message = message,
+            onConfirmedYes = onDeleteConfirm,
+            onDismissed = onDismissed)
     }
 }

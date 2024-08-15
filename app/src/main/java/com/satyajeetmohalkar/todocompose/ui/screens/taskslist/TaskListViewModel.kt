@@ -2,6 +2,7 @@ package com.satyajeetmohalkar.todocompose.ui.screens.taskslist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.satyajeetmohalkar.todocompose.data.local.repository.TaskRepository
 import com.satyajeetmohalkar.todocompose.data.models.TodoTask
 import com.satyajeetmohalkar.todocompose.ui.state.SearchBarState
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -93,6 +95,13 @@ class TaskListViewModel @Inject constructor(
                     )
                 }
             }.launchIn(viewModelScope)
+    }
+
+
+    fun deleteAllTasks() {
+        viewModelScope.launch {
+            taskRepository.deleteAllTasks()
+        }
     }
 
 }
