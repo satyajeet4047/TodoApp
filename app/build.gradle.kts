@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -29,6 +30,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -78,7 +80,7 @@ dependencies {
 
     //Hilt + Navigation
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     implementation(libs.hilt.navigation.compose)
 
@@ -90,6 +92,6 @@ dependencies {
 
     //Room
     implementation(libs.room)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     implementation(libs.room.ktx)
 }
