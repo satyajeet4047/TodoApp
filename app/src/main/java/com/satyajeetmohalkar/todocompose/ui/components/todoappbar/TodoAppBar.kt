@@ -2,7 +2,6 @@ package com.satyajeetmohalkar.todocompose.ui.components.todoappbar
 
 import android.content.res.Configuration
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,6 +16,7 @@ fun TodoAppBar(
     searchBarState: SearchBarState,
     searchQuery: String,
     isDarkModeEnabled  : Boolean,
+    shouldShowTopBarActions : Boolean,
     onSearchQueryChange: (String) -> Unit,
     onSearchCloseClicked: () -> Unit,
     onSearchIconClicked : () -> Unit,
@@ -33,6 +33,7 @@ fun TodoAppBar(
                 searchBarState = searchBarState,
                 searchQuery = searchQuery,
                 isDarkModeEnabled = isDarkModeEnabled,
+                shouldShowTopBarActions= shouldShowTopBarActions,
                 onSearchQueryChange = onSearchQueryChange,
                 onSearchCloseClicked = onSearchCloseClicked,
                 onSearchIconClicked = onSearchIconClicked,
@@ -55,6 +56,7 @@ fun TodoAppBarPreview() {
         searchBarState = SearchBarState.CLOSED,
         searchQuery = "",
         isDarkModeEnabled = true,
+        shouldShowTopBarActions = false,
         onSearchCloseClicked = {},
         onSearchQueryChange = {},
         onSearchIconClicked = {},

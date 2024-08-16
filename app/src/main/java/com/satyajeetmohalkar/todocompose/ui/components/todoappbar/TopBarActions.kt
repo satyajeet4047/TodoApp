@@ -21,7 +21,6 @@ import com.satyajeetmohalkar.todocompose.data.models.Priority
 import com.satyajeetmohalkar.todocompose.ui.components.dropdown.PriorityItem
 import com.satyajeetmohalkar.todocompose.ui.state.SearchBarState
 import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarContentColor
-import com.satyajeetmohalkar.todocompose.utils.TaskAction
 
 
 @Composable
@@ -29,6 +28,7 @@ fun TasksListActions(
     searchBarState: SearchBarState,
     searchQuery : String,
     isDarkModeEnabled: Boolean,
+    shouldShowTopBarActions : Boolean,
     onSearchCloseClicked : () -> Unit,
     onSearchQueryChange : (String) -> Unit,
     onSearchIconClicked: () -> Unit,
@@ -40,6 +40,7 @@ fun TasksListActions(
         SearchBarState.CLOSED -> {
             TaskListDefaultActions(
                 isDarkModeEnabled,
+                shouldShowTopBarActions,
                 onSearchIconClicked,
                 onSortClicked,
                 onDeleteAllClicked,
@@ -59,14 +60,17 @@ fun TasksListActions(
 @Composable
 private fun TaskListDefaultActions(
     isDarkModeEnabled : Boolean,
+    shouldShowTopBarActions : Boolean,
     onSearchIconClicked: () -> Unit,
     onSortClicked: (Priority) -> Unit,
     onDeleteAllClicked: () -> Unit,
     onThemeChangeClick : (Boolean) -> Unit
 ) {
-    SearchAction(onSearchIconClicked)
-    SortAction(onSortClicked)
-    DeleteAllAction(onDeleteAllClicked)
+    if(shouldShowTopBarActions) {
+        SearchAction(onSearchIconClicked)
+        SortAction(onSortClicked)
+        DeleteAllAction(onDeleteAllClicked)
+    }
     ThemeAction(isDarkModeEnabled = isDarkModeEnabled, onThemeChangeClick = onThemeChangeClick)
 
 }

@@ -1,6 +1,5 @@
 package com.satyajeetmohalkar.todocompose.ui.screens.taskslist
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -27,7 +26,6 @@ import com.satyajeetmohalkar.todocompose.ui.components.dialog.DeleteTaskConfirma
 import com.satyajeetmohalkar.todocompose.ui.components.todoappbar.TodoAppBar
 import com.satyajeetmohalkar.todocompose.ui.state.SearchBarState
 import com.satyajeetmohalkar.todocompose.ui.theme.Purple40
-import com.satyajeetmohalkar.todocompose.ui.theme.PurpleGrey40
 import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarBackgroundColor
 import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarContentColor
 import com.satyajeetmohalkar.todocompose.utils.ComposeImmutableList
@@ -94,6 +92,7 @@ fun TaskListContent(
                 searchBarState = searchBarState,
                 searchQuery = searchQuery,
                 isDarkModeEnabled = isDarkModeEnabled,
+                shouldShowTopBarActions = taskList.isNotEmpty(),
                 onSearchQueryChange = onSearchQueryChange,
                 onSearchCloseClicked = onSearchCloseClicked,
                 onSearchIconClicked = onSearchIconClicked,
