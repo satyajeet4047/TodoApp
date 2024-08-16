@@ -16,12 +16,12 @@ class TaskRepositoryImpl @Inject constructor(
         return  todoTaskDao.getTodoTask(taskId)
     }
 
-    override fun getSortedTasksByLowToHigh(): Flow<List<TodoTask>> {
-        return todoTaskDao.sortTasksByLowToHigh()
+    override fun getSortedTasksByLowToHigh(searchQuery : String): Flow<List<TodoTask>> {
+        return todoTaskDao.sortTasksByLowToHigh(searchQuery)
     }
 
-    override fun getSortedTasksByHighToLow(): Flow<List<TodoTask>> {
-        return todoTaskDao.sortTasksByHighToLow()
+    override fun getSortedTasksByHighToLow(searchQuery: String): Flow<List<TodoTask>> {
+        return todoTaskDao.sortTasksByHighToLow(searchQuery)
     }
 
     override fun searchTasks(searchQuery: String): Flow<List<TodoTask>> {

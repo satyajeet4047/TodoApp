@@ -36,16 +36,18 @@ interface TodoTaskDao {
     fun searchTodoTask(searchQuery : String) : Flow<List<TodoTask>>
 
     //Sort tasks based on priority low to high
-    @Query("SELECT * FROM ${Constants.TODO_TABLE_NAME} ORDER BY " +
+    @Query("SELECT * FROM ${Constants.TODO_TABLE_NAME}  where title LIKE :searchQuery or description LIKE :searchQuery " +
+            "ORDER BY " +
             "CASE WHEN priority LIKE 'L%' THEN 1 " +
             "WHEN priority LIKE 'M%' THEN 2 " +
             "WHEN priority LIKE 'H%' THEN 3 END")
-    fun sortTasksByLowToHigh() : Flow<List<TodoTask>>
+    fun sortTasksByLowToHigh(searchQuery: String) : Flow<List<TodoTask>>
 
     //Sort tasks based on priority high to low
-    @Query("SELECT * FROM ${Constants.TODO_TABLE_NAME} ORDER BY " +
+    @Query("SELECT * FROM ${Constants.TODO_TABLE_NAME}  where title LIKE :searchQuery or description LIKE :searchQuery" +
+            " ORDER BY " +
             "CASE WHEN priority LIKE 'H%' THEN 1 " +
             "WHEN priority LIKE 'M%' THEN 2 " +
             "WHEN priority LIKE 'L%' THEN 3 END")
-    fun sortTasksByHighToLow() : Flow<List<TodoTask>>
+    fun sortTasksByHighToLow(searchQuery: String) : Flow<List<TodoTask>>
 }

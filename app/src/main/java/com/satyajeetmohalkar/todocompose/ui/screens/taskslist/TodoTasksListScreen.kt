@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -115,7 +116,7 @@ fun TaskListContent(
                 CircularProgressIndicator(
                     strokeWidth = 4.dp,
                     color = Purple40,
-                    backgroundColor = PurpleGrey40
+                    modifier = Modifier.size(36.dp)
                 )
             } else if(taskList.isEmpty()) {
                 EmptyContent()

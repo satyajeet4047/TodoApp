@@ -9,9 +9,9 @@ interface TaskRepository {
 
     fun getTask(taskId : Int) : Flow<TodoTask>
 
-    fun getSortedTasksByLowToHigh() : Flow<List<TodoTask>>
+    fun getSortedTasksByLowToHigh(searchQuery : String) : Flow<List<TodoTask>>
 
-    fun getSortedTasksByHighToLow() : Flow<List<TodoTask>>
+    fun getSortedTasksByHighToLow(searchQuery: String) : Flow<List<TodoTask>>
 
     fun searchTasks(searchQuery : String) : Flow<List<TodoTask>>
 
