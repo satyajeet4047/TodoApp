@@ -7,6 +7,7 @@ A simple, yet powerful todo application built using Jetpack Compose, Kotlin, Roo
 * View tasks in a list format 📋
 * Search, sort, and filter tasks 🔍
 * Light and dark theme support 🌙
+* Engaging splash screen for app launch 💫
 
 **Tech Stack:** 
 * Jetpack Compose: For building the UI 🎨
@@ -14,6 +15,7 @@ A simple, yet powerful todo application built using Jetpack Compose, Kotlin, Roo
 * RoomDatabase: For local data storage 💾
 * DataStore: For storing app preferences (e.g., theme) ⚙️
 * Coroutines: For asynchronous operations 🔄
+* Splash API: For creating immersive app launches 💫
 
 **Installation:**
 * Clone the repository ⬇️
