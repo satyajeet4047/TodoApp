@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -34,12 +35,17 @@ fun ConfirmationDialog(
                 .fillMaxWidth(),
             onDismissRequest = onDismissed,
             title = {
-                Text(text = title)
+                Text(text = title,
+                    style = MaterialTheme.typography.h6.copy(
+                        fontWeight = FontWeight.Bold
+                    ))
             },
             text = {
                 Text(
                     text = message,
-                    fontSize = 16.sp
+                    style = MaterialTheme.typography.body1.copy(
+                        fontWeight = FontWeight.Medium
+                    )
                 )
             },
             buttons = {
@@ -53,27 +59,27 @@ fun ConfirmationDialog(
                             isDismissed = true
                         },
                         modifier = Modifier
-                            .padding(4.dp)
+                            .padding(horizontal = 4.dp)
                     ) {
                         Text(
                             text = "No",
                             style = MaterialTheme.typography.button.copy(
-                                fontWeight = FontWeight.Medium
+                                fontWeight = FontWeight.Bold
                             )
                         )
                     }
-                    TextButton(
+                    Button(
                         onClick = {
                             onConfirmedYes()
                             isDismissed = true
                         },
                         modifier = Modifier
-                            .padding(4.dp)
+                            .padding(start = 4.dp, end = 4.dp)
                     ) {
                         Text(
                             text = "Yes",
                             style = MaterialTheme.typography.button.copy(
-                                fontWeight = FontWeight.Medium
+                                fontWeight = FontWeight.Bold
                             )
                         )
                     }

@@ -66,7 +66,7 @@ fun TodoTasksListScreen(
         }
     )
 
-    DeleteTaskConfirmationDialog("Delete All Tasks", "Are you sure you want to delete all todo tasks?",shouldShowDeleteConfirmationDialog, taskListViewModel::deleteAllTasks, {})
+    DeleteTaskConfirmationDialog("Remove Everything??", "Are you sure you want to delete all todo tasks permanently ?",shouldShowDeleteConfirmationDialog, taskListViewModel::deleteAllTasks, {})
 
 }
 

@@ -21,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -131,7 +130,7 @@ fun TaskContent(
 
     }
 
-    DeleteTaskConfirmationDialog(title ?: "", description ?: "",shouldShowDeleteConfirmationDialog, onDeleteConfirm, onDismiss)
+    DeleteTaskConfirmationDialog("Remove task : $title?", "Are you sure you want to delete this task permanently?",shouldShowDeleteConfirmationDialog, onDeleteConfirm, onDismiss)
 }
 
 
