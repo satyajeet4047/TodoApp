@@ -6,7 +6,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideIn
+import androidx.compose.foundation.background
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.CreationExtras
@@ -20,6 +23,7 @@ import androidx.navigation.navArgument
 import com.satyajeetmohalkar.todocompose.di.TaskViewModelFactory
 import com.satyajeetmohalkar.todocompose.ui.screens.taskdetails.TaskScreen
 import com.satyajeetmohalkar.todocompose.ui.screens.taskslist.TodoTasksListScreen
+import com.satyajeetmohalkar.todocompose.ui.theme.navigationBackgroundColor
 
 const val TASKS_ROUTE = "tasks_route"
 
@@ -28,6 +32,7 @@ fun TodoTasksNavigation() {
     val navController = rememberNavController()
 
     NavHost(
+        modifier = Modifier.background(MaterialTheme.colors.navigationBackgroundColor),
         navController = navController,
         startDestination = Screens.TaskListScreen.route,
         route = TASKS_ROUTE,
