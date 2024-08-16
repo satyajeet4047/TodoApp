@@ -2,11 +2,13 @@ package com.satyajeetmohalkar.todocompose.ui.screens.taskdetails
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
@@ -19,14 +21,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.satyajeetmohalkar.todocompose.data.models.Priority
-import com.satyajeetmohalkar.todocompose.ui.components.dialog.ConfirmationDialog
 import com.satyajeetmohalkar.todocompose.ui.components.dialog.DeleteTaskConfirmationDialog
 import com.satyajeetmohalkar.todocompose.ui.components.dropdown.PriorityDropDown
 import com.satyajeetmohalkar.todocompose.ui.components.todoappbar.TaskAppBar
+import com.satyajeetmohalkar.todocompose.ui.theme.Purple40
 
 
 @Composable
@@ -44,6 +47,7 @@ fun TaskScreen(
         title = taskUiState.title,
         description = taskUiState.description,
         priority = taskUiState.priority,
+        isLoading = taskUiState.isLoading,
         onNavigateUp = onNavigateUp,
         onTitleChange = taskViewModel::onTitleChange,
         onDescriptionChange = taskViewModel::onDescriptionChange,
@@ -77,6 +81,7 @@ fun TaskContent(
     title: String?,
     description: String?,
     priority: Priority,
+    isLoading: Boolean,
     onNavigateUp: () -> Unit,
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
@@ -89,8 +94,6 @@ fun TaskContent(
     onDismiss: () -> Unit,
     shouldShowDeleteConfirmationDialog: Boolean
 ) {
-
-
     Scaffold(
         topBar = {
             TaskAppBar(
@@ -103,16 +106,27 @@ fun TaskContent(
         }
     ) { contentPadding ->
         Surface(modifier = Modifier.padding(contentPadding)) {
-            TaskScreenContent(
-                    title = title,
-                    description = description,
-                    priority = priority,
-                    onTitleChange = onTitleChange,
-                    onDescriptionChange =  onDescriptionChange,
-                    onPriorityChange = onPriorityChange,
-                    isValidTitle =  isValidTitle,
-                    isValidDescription = isValidDescription
-            )
+            Column(verticalArrangement = Arrangement.Center){
+
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        strokeWidth = 4.dp,
+                        color = Purple40,
+                        modifier = Modifier.size(36.dp)
+                    )
+                } else {
+                    TaskScreenContent(
+                        title = title,
+                        description = description,
+                        priority = priority,
+                        onTitleChange = onTitleChange,
+                        onDescriptionChange = onDescriptionChange,
+                        onPriorityChange = onPriorityChange,
+                        isValidTitle = isValidTitle,
+                        isValidDescription = isValidDescription
+                    )
+                }
+            }
         }
 
     }

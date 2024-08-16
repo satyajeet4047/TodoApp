@@ -33,7 +33,7 @@ fun TodoTasksNavigation() {
         route = TASKS_ROUTE,
         enterTransition = {
             slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left, tween(500)
+                AnimatedContentTransitionScope.SlideDirection.Left, tween(200)
             )
         },
         exitTransition = {

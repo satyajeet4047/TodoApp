@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.TodoCompose" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.TodoCompose.Splash.Base" parent="Theme.SplashScreen">
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+    </style>
+
+    <style name="Theme.TodoCompose.Splash" parent="Theme.TodoCompose.Splash.Base">
+        <item name="windowSplashScreenBackground">@color/color_splash_bg</item>
+        <item name="windowSplashScreenAnimationDuration">300</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.TodoCompose</item>
+    </style>
 </resources>

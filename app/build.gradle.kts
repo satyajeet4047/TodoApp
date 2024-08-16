@@ -21,11 +21,14 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        resourceConfigurations.addAll(listOf("en"))
+
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -98,4 +101,7 @@ dependencies {
 
     //DataStore Preferences
     implementation(libs.datastore.preferences)
+
+    //Splash Screen
+    implementation(libs.androidx.core.splash)
 }

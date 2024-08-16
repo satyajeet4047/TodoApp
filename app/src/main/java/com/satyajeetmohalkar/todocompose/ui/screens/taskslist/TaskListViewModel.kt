@@ -39,7 +39,7 @@ class TaskListViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
 
-    private val debouncedSearchQuery = searchQuery.debounce(5000L)
+    private val debouncedSearchQuery = searchQuery.debounce(300L)
 
     private val _sortFilter = MutableStateFlow(Priority.NONE)
     private val sortFilter: StateFlow<Priority> = _sortFilter
