@@ -1,5 +1,6 @@
 package com.satyajeetmohalkar.todocompose.ui.components.todoappbar
 
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -26,17 +27,17 @@ import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarContentColor
 @Composable
 fun TasksListActions(
     searchBarState: SearchBarState,
-    searchQuery : String,
+    searchQuery: String,
     isDarkModeEnabled: Boolean,
-    shouldShowTopBarActions : Boolean,
-    onSearchCloseClicked : () -> Unit,
-    onSearchQueryChange : (String) -> Unit,
+    shouldShowTopBarActions: Boolean,
+    onSearchCloseClicked: () -> Unit,
+    onSearchQueryChange: (String) -> Unit,
     onSearchIconClicked: () -> Unit,
     onSortClicked: (Priority) -> Unit,
     onDeleteAllClicked: () -> Unit,
-    onThemeChangeClick : (Boolean) -> Unit
+    onThemeChangeClick: (Boolean) -> Unit
 ) {
-    when(searchBarState) {
+    when (searchBarState) {
         SearchBarState.CLOSED -> {
             TaskListDefaultActions(
                 isDarkModeEnabled,
@@ -47,8 +48,10 @@ fun TasksListActions(
                 onThemeChangeClick
             )
         }
+
         else -> {
-            SearchAppbar(searchQuery = searchQuery ,
+            SearchAppbar(
+                searchQuery = searchQuery,
                 onSearchQueryChange = onSearchQueryChange,
                 onSearchCloseClicked = onSearchCloseClicked
             )
@@ -59,14 +62,14 @@ fun TasksListActions(
 
 @Composable
 private fun TaskListDefaultActions(
-    isDarkModeEnabled : Boolean,
-    shouldShowTopBarActions : Boolean,
+    isDarkModeEnabled: Boolean,
+    shouldShowTopBarActions: Boolean,
     onSearchIconClicked: () -> Unit,
     onSortClicked: (Priority) -> Unit,
     onDeleteAllClicked: () -> Unit,
-    onThemeChangeClick : (Boolean) -> Unit
+    onThemeChangeClick: (Boolean) -> Unit
 ) {
-    if(shouldShowTopBarActions) {
+    if (shouldShowTopBarActions) {
         SearchAction(onSearchIconClicked)
         SortAction(onSortClicked)
         DeleteAllAction(onDeleteAllClicked)
@@ -77,19 +80,20 @@ private fun TaskListDefaultActions(
 
 
 @Composable
-fun SearchAction(onSearchIconClicked : () -> Unit) {
+fun SearchAction(onSearchIconClicked: () -> Unit) {
     IconButton(onClick = onSearchIconClicked) {
         Icon(
             imageVector = Icons.Filled.Search,
             contentDescription = "Search Tasks Button",
-            tint = MaterialTheme.colors.topAppBarContentColor)
+            tint = MaterialTheme.colors.topAppBarContentColor
+        )
 
     }
 }
 
 
 @Composable
-fun SortAction(onSortClicked : (Priority) -> Unit) {
+fun SortAction(onSortClicked: (Priority) -> Unit) {
 
     var isExpanded by remember { mutableStateOf(false) }
 
@@ -125,7 +129,7 @@ fun SortAction(onSortClicked : (Priority) -> Unit) {
 }
 
 @Composable
-fun DeleteAllAction(onDeleteAllClicked : () -> Unit) {
+fun DeleteAllAction(onDeleteAllClicked: () -> Unit) {
 
     IconButton(onClick = {
         onDeleteAllClicked()
@@ -139,20 +143,21 @@ fun DeleteAllAction(onDeleteAllClicked : () -> Unit) {
 }
 
 @Composable
-fun AddTaskAction(addActionClicked : () -> Unit) {
+fun AddTaskAction(addActionClicked: () -> Unit, isEnabled: Boolean) {
     IconButton(onClick = {
         addActionClicked()
-    }) {
+    }, enabled = isEnabled) {
         Icon(
             imageVector = Icons.Filled.AddTask,
             contentDescription = "Add Task Button",
-            tint = MaterialTheme.colors.topAppBarContentColor
+            tint = if (isEnabled) MaterialTheme.colors.topAppBarContentColor
+            else MaterialTheme.colors.topAppBarContentColor.copy(alpha = ContentAlpha.disabled)
         )
     }
 }
 
 @Composable
-fun DeleteTaskAction(deleteActionClicked : () -> Unit) {
+fun DeleteTaskAction(deleteActionClicked: () -> Unit) {
     IconButton(onClick = {
         deleteActionClicked()
     }) {
@@ -165,12 +170,12 @@ fun DeleteTaskAction(deleteActionClicked : () -> Unit) {
 }
 
 @Composable
-fun ThemeAction(isDarkModeEnabled : Boolean, onThemeChangeClick : (Boolean) -> Unit) {
+fun ThemeAction(isDarkModeEnabled: Boolean, onThemeChangeClick: (Boolean) -> Unit) {
     IconButton(onClick = {
         onThemeChangeClick(!isDarkModeEnabled)
     }) {
         Icon(
-            imageVector = if(isDarkModeEnabled)Icons.Filled.ModeNight else Icons.Filled.LightMode,
+            imageVector = if (isDarkModeEnabled) Icons.Filled.ModeNight else Icons.Filled.LightMode,
             contentDescription = "Themechange Button",
             tint = MaterialTheme.colors.topAppBarContentColor
         )

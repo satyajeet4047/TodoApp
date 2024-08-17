@@ -39,14 +39,15 @@ fun TaskScreen(
 ) {
     val taskUiState by taskViewModel.taskUiState.collectAsStateWithLifecycle()
     var shouldShowDeleteConfirmationDialog by remember { mutableStateOf(false) }
-
     val context = LocalContext.current
+
     TaskContent(
         taskId = taskUiState.taskId,
         title = taskUiState.title,
         description = taskUiState.description,
         priority = taskUiState.priority,
         isLoading = taskUiState.isLoading,
+        isEnabled = taskUiState.shouldEnableAddButton,
         onNavigateUp = onNavigateUp,
         onTitleChange = taskViewModel::onTitleChange,
         onDescriptionChange = taskViewModel::onDescriptionChange,
@@ -81,6 +82,7 @@ fun TaskContent(
     description: String?,
     priority: Priority,
     isLoading: Boolean,
+    isEnabled : Boolean,
     onNavigateUp: () -> Unit,
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
@@ -98,6 +100,7 @@ fun TaskContent(
             TaskAppBar(
                 taskId = taskId,
                 title = title,
+                isEnabled = isEnabled,
                 onNavigateUp = onNavigateUp,
                 addActionClicked = addActionClicked,
                 deleteActionClicked = deleteActionClicked

@@ -57,10 +57,12 @@ class TaskViewModel @AssistedInject constructor(
 
     fun onTitleChange(title : String) {
         if(title.length <=  Constants.MAX_TITLE_LENGTH) {
+
             _taskUiState.update {
                 it.copy(
                     title = title,
-                    isValidTitle = title.isNotEmpty()
+                    isValidTitle = isValidTitle(title),
+                    shouldEnableAddButton = isValidTitle(title) && isValidDescription(it.description)
                 )
             }
         }
@@ -68,12 +70,13 @@ class TaskViewModel @AssistedInject constructor(
     }
 
     fun onDescriptionChange(description : String) {
-            _taskUiState.update {
-                it.copy(
-                    description = description,
-                    isValidDescription = description.isNotEmpty()
-                )
-            }
+        _taskUiState.update {
+            it.copy(
+                description = description,
+                isValidDescription = isValidDescription(description),
+                shouldEnableAddButton = isValidTitle(it.title) && isValidDescription(description)
+            )
+        }
     }
 
     fun onPriorityChange(priority: Priority) {
@@ -99,7 +102,7 @@ class TaskViewModel @AssistedInject constructor(
     }
 
     fun isValidTaskData() : Boolean {
-        return taskUiState.value.isValidTitle && taskUiState.value.isValidDescription
+        return taskUiState.value.title.isNotEmpty() && taskUiState.value.description.isNotEmpty()
     }
 
     fun deleteTask() {
@@ -109,5 +112,9 @@ class TaskViewModel @AssistedInject constructor(
             }
         }
     }
+
+    private inline fun isValidTitle(title : String) = title.isNotEmpty() && title != "Add Task"
+
+    private inline fun isValidDescription(description : String) = description.isNotEmpty()
 
 }

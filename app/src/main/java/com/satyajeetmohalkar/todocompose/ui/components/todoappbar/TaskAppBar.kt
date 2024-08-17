@@ -13,6 +13,7 @@ import com.satyajeetmohalkar.todocompose.utils.TaskAction
 fun TaskAppBar(
     taskId : Int,
     title: String?,
+    isEnabled : Boolean,
     onNavigateUp: () -> Unit,
     addActionClicked : () -> Unit,
     deleteActionClicked : () -> Unit
@@ -31,7 +32,7 @@ fun TaskAppBar(
             if(taskId != -1) {
                 DeleteTaskAction(deleteActionClicked = deleteActionClicked)
             }
-            AddTaskAction(addActionClicked = addActionClicked)
+            AddTaskAction(addActionClicked = addActionClicked, isEnabled = isEnabled)
         }
     )
 }

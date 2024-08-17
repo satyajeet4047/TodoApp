@@ -9,8 +9,9 @@ data class TaskUiState(
    val title : String,
    val description : String,
    val priority: Priority,
-   val isValidTitle : Boolean = true,
-   val isValidDescription : Boolean = true,
+   val isValidTitle : Boolean,
+   val isValidDescription : Boolean,
+   val shouldEnableAddButton : Boolean
 
 ) {
    companion object {
@@ -19,7 +20,10 @@ data class TaskUiState(
          isLoading = true,
          title = "",
          description = "",
-         priority = Priority.LOW
+         priority = Priority.LOW,
+         isValidTitle = true,
+         isValidDescription = true,
+         shouldEnableAddButton = false
       )
    }
 }
