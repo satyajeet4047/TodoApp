@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.satyajeetmohalkar.todocompose.data.models.Priority
 import com.satyajeetmohalkar.todocompose.ui.components.dialog.DeleteTaskConfirmationDialog
 import com.satyajeetmohalkar.todocompose.ui.components.dropdown.PriorityDropDown
@@ -36,9 +37,8 @@ fun TaskScreen(
     taskViewModel: TaskViewModel,
     onNavigateUp: () -> Unit
 ) {
-    val taskUiState by taskViewModel.taskUiState.collectAsState()
+    val taskUiState by taskViewModel.taskUiState.collectAsStateWithLifecycle()
     var shouldShowDeleteConfirmationDialog by remember { mutableStateOf(false) }
-
 
     val context = LocalContext.current
     TaskContent(

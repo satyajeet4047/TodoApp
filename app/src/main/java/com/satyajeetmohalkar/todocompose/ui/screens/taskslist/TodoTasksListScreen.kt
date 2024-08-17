@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.satyajeetmohalkar.todocompose.data.models.Priority
 import com.satyajeetmohalkar.todocompose.data.models.TodoTask
 import com.satyajeetmohalkar.todocompose.ui.components.dialog.DeleteTaskConfirmationDialog
@@ -37,15 +38,15 @@ fun TodoTasksListScreen(
     taskListViewModel: TaskListViewModel,
     navigateToTaskDetails: (Int) -> Unit
 ) {
-    val searchQuery by taskListViewModel.searchQuery.collectAsState()
-    val searchBarState by taskListViewModel.searchBarState.collectAsState()
-    val tasksListUiState by taskListViewModel.tasksListUiState.collectAsState()
+    val searchQuery by taskListViewModel.searchQuery.collectAsStateWithLifecycle()
+    val searchBarState by taskListViewModel.searchBarState.collectAsStateWithLifecycle()
+    val tasksListUiState by taskListViewModel.tasksListUiState.collectAsStateWithLifecycle()
 
     val tasks by rememberComposeImmutableList { tasksListUiState.tasks }
 
     var shouldShowDeleteConfirmationDialog by remember { mutableStateOf(false) }
 
-    val isDarkModeEnabled by taskListViewModel.darkMode.collectAsState()
+    val isDarkModeEnabled by taskListViewModel.darkMode.collectAsStateWithLifecycle()
 
     TaskListContent(
         isLoading = tasksListUiState.isLoading,
