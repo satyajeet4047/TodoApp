@@ -4,6 +4,8 @@ kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
+androidxTestCore = "1.6.1"
+androidxTestRunner = "1.5.2"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.3"
 activityCompose = "1.9.0"
@@ -19,12 +21,18 @@ ksp = "1.9.0-1.0.13"
 datastore = "1.1.1"
 lifecycleRuntimeComposeAndroid = "2.8.4"
 splashscreen = "1.0.1"
+junitKtx = "1.2.1"
+coroutinesTest = "1.9.0-RC.2"
+coreTesting = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "coreTesting" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-junit-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidxTestCore" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -51,8 +59,11 @@ okhttp-interceptor = {group = "com.squareup.okhttp3", name = "logging-intercepto
 room = {group = "androidx.room", name = "room-runtime", version.ref = "room"}
 room-compiler= {group = "androidx.room", name = "room-compiler", version.ref = "room"}
 room-ktx= {group = "androidx.room", name = "room-ktx", version.ref = "room"}
+room-testing= {group = "androidx.room", name = "room-testing", version.ref = "room"}
 datastore-preferences= {group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore"}
 androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
+kotlinx-coroutines-test= { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest" }
 
 
 [plugins]

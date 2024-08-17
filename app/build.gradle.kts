@@ -69,11 +69,18 @@ dependencies {
     implementation(libs.androidx.material.icons)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
+    implementation(libs.androidx.junit.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.junit.runner)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.arch.core.testing)
+    androidTestImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.arch.core.testing)
+
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
@@ -98,10 +105,14 @@ dependencies {
     implementation(libs.room)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
+    androidTestImplementation(libs.room.testing)
 
     //DataStore Preferences
     implementation(libs.datastore.preferences)
 
     //Splash Screen
     implementation(libs.androidx.core.splash)
+
+    //Coroutines Test
+    implementation(libs.kotlinx.coroutines.test)
 }
