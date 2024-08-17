@@ -24,6 +24,7 @@ splashscreen = "1.0.1"
 junitKtx = "1.2.1"
 coroutinesTest = "1.9.0-RC.2"
 coreTesting = "2.2.0"
+compilerReport = "1.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -72,4 +73,5 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 hiltAndroid = {id= "com.google.dagger.hilt.android",  version.ref = "hilt"}
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compiler-report = { id = "dev.shreyaspatil.compose-compiler-report-generator", version.ref = "compilerReport" }
 
