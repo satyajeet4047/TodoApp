@@ -31,3 +31,10 @@ A simple, yet powerful todo application built using Jetpack Compose, Kotlin, Roo
 * Use the search bar to find specific tasks 🔍
 * Sort tasks by priority, due date, or completion status ⬆️⬇️
 * Toggle between light and dark theme 🌙☀️
+
+**Demo :**
+
+
+https://github.com/user-attachments/assets/3fb94d5f-a33d-4895-b472-47a2480b587d
+
+
