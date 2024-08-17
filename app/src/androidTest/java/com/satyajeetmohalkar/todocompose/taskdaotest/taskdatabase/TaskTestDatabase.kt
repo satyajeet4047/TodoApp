@@ -1,4 +1,4 @@
-package com.satyajeetmohalkar.todocompose.taskdaotest
+package com.satyajeetmohalkar.todocompose.taskdaotest.taskdatabase
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider

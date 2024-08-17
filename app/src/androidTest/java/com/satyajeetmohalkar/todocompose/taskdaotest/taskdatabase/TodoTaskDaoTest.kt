@@ -1,4 +1,4 @@
-package com.satyajeetmohalkar.todocompose.taskdaotest
+package com.satyajeetmohalkar.todocompose.taskdaotest.taskdatabase
 
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
