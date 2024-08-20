@@ -1,5 +1,6 @@
 package com.satyajeetmohalkar.todocompose.ui.screens.taskslist
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,7 +13,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +34,7 @@ import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarBackgroundColor
 import com.satyajeetmohalkar.todocompose.ui.theme.topAppBarContentColor
 import com.satyajeetmohalkar.todocompose.utils.ComposeImmutableList
 import com.satyajeetmohalkar.todocompose.utils.rememberComposeImmutableList
+import com.satyajeetmohalkar.todocompose.utils.toComposeImmutableList
 
 
 @Composable
@@ -43,6 +47,10 @@ fun TodoTasksListScreen(
     val tasksListUiState by taskListViewModel.tasksListUiState.collectAsStateWithLifecycle()
 
     val tasks by rememberComposeImmutableList { tasksListUiState.tasks }
+
+    LaunchedEffect(tasksListUiState) {
+        Log.d("Satya", "Received new UI state: $tasksListUiState")
+    }
 
     var shouldShowDeleteConfirmationDialog by remember { mutableStateOf(false) }
 
