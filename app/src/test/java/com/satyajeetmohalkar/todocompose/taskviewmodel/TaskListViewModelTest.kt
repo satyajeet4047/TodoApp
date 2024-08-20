@@ -180,4 +180,37 @@ class TaskListViewModelTest {
     }
 
 
+    @Test
+    fun test_uiModeFlowWithDefaultValue() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.darkMode.collect()
+        }
+        val darkMode = viewModel.darkMode.value
+        assertEquals(false,darkMode)
+    }
+
+    @Test
+    fun test_uiModeFlowWithTrueValue() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.darkMode.collect()
+        }
+        viewModel.onThemeChange(true)
+        advanceUntilIdle()
+        val darkMode = viewModel.darkMode.value
+        assertEquals(true,darkMode)
+    }
+
+    @Test
+    fun test_uiModeFlowWithFalseValue() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.darkMode.collect()
+        }
+        viewModel.onThemeChange(false)
+        advanceUntilIdle()
+        val darkMode = viewModel.darkMode.value
+        assertEquals(false,darkMode)
+    }
+
+
+
 }
