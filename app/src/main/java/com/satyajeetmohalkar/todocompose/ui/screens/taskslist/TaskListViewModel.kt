@@ -1,5 +1,6 @@
 package com.satyajeetmohalkar.todocompose.ui.screens.taskslist
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.satyajeetmohalkar.todocompose.data.local.repository.TaskRepository
@@ -14,6 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
@@ -23,11 +25,14 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@OptIn(FlowPreview::class,ExperimentalCoroutinesApi::class)
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class TaskListViewModel @Inject constructor(
     private val taskRepository: TaskRepository, private val preferenceManager: PreferenceManager
@@ -44,43 +49,43 @@ class TaskListViewModel @Inject constructor(
     private val _sortFilter = MutableStateFlow(Priority.NONE)
     private val sortFilter: StateFlow<Priority> = _sortFilter
 
-    private val tasks: Flow<List<TodoTask>> = combine(debouncedSearchQuery, sortFilter) { query, filter ->
-        Pair(query, filter)
-    }.flatMapLatest { params ->
-        val tasksFlow = when (params.second) {
-            Priority.LOW -> {
-                taskRepository.getSortedTasksByLowToHigh("%${params.first}%")
-            }
-            Priority.HIGH -> {
-                taskRepository.getSortedTasksByHighToLow("%${params.first}%")
-            }
-            else -> {
-                taskRepository.searchTasks("%${params.first}%")
-            }
+    val tasksListUiState: StateFlow<TaskListUiState> = combine(debouncedSearchQuery, sortFilter) { query, filter ->
+            Pair(query, filter)
         }
-        tasksFlow
-    }.flowOn(Dispatchers.IO)
-
-
-    private val _tasksListUiState =
-        MutableStateFlow(TaskListUiState(isLoading = true, tasks = emptyList()))
-    val tasksListUiState: StateFlow<TaskListUiState> = _tasksListUiState
-
-    private val _darkMode = MutableStateFlow(false)
-    val darkMode: StateFlow<Boolean> = _darkMode
-
-    init {
-        observeTasks()
-        observerUiMode()
-    }
-
-    private fun observerUiMode() {
-        preferenceManager.uiModeFlow.onEach { isDarkModeEnabled ->
-                _darkMode.update {
-                    isDarkModeEnabled
+        .flatMapLatest { params ->
+            val tasksFlow = when (params.second) {
+                Priority.LOW -> {
+                    Log.d("satya", "Fetching tasks with Priority.LOW")
+                    taskRepository.getSortedTasksByLowToHigh("%${params.first}%")
                 }
-            }.flowOn(Dispatchers.IO).launchIn(viewModelScope)
-    }
+
+                Priority.HIGH -> {
+                    Log.d("satya", "Fetching tasks with Priority.HIGH")
+
+                    taskRepository.getSortedTasksByHighToLow("%${params.first}%")
+                }
+                else -> {
+                    Log.d("satya", "Fetching tasks with Priority.default")
+                    taskRepository.searchTasks("%${params.first}%")
+                }
+            }
+            tasksFlow
+        }
+        .transform {
+            Log.d("satya", "task list : ${it.size}")
+            emit(TaskListUiState(isLoading = false, tasks = it))
+        }
+        .distinctUntilChanged()
+        .stateIn(
+            viewModelScope,
+            started = SharingStarted.WhileSubscribed(1000),
+            TaskListUiState(isLoading = true, tasks = emptyList())
+        )
+
+    val darkMode: StateFlow<Boolean> =  preferenceManager.uiModeFlow
+        .distinctUntilChanged()
+        .stateIn(viewModelScope, started = SharingStarted.WhileSubscribed(1000), initialValue = false)
+
 
     fun onSearchQueryChange(searchQueryText: String) {
         _searchQuery.update {
@@ -98,26 +103,6 @@ class TaskListViewModel @Inject constructor(
         _searchBarState.update {
             SearchBarState.OPENED
         }
-    }
-
-    private fun observeTasks() {
-       tasks
-           .distinctUntilChanged()
-           .onStart {
-           _tasksListUiState.update {
-               it.copy(
-                   isLoading = true, tasks = emptyList()
-               )
-           }
-       }.onEach { tasks ->
-           _tasksListUiState.update {
-               it.copy(
-                   isLoading = false, tasks = tasks
-               )
-           }
-       }
-           .flowOn(Dispatchers.IO)
-           .launchIn(viewModelScope)
     }
 
     fun deleteAllTasks() {
